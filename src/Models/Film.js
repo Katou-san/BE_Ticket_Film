@@ -1,5 +1,6 @@
 const Film = {
   Film_Id: 0,
+  Category_Id: 0,
   Name: "",
   Director: "",
   Start_Date: "",
@@ -8,7 +9,7 @@ const Film = {
   Des: "",
   Poster: "",
   Member: "",
-  Rated: "",
+  Rated: "", // tuổi được xem phim
 };
 
 module.exports = { Film };

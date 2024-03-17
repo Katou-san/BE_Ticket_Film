@@ -3,7 +3,7 @@ const {
   JWT_Create_Token,
   Hash_Password,
   Confirm_Hash_Password,
-} = require("../Middleware/JWT_ActionS");
+} = require("../Middleware/JWT_Actions");
 
 const S_Login = (data) => {
   return new Promise(async (resolve, reject) => {

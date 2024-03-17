@@ -25,6 +25,7 @@ const JWT_Verify_Token = async (req, res, next) => {
         res.send({ status: 401, message: "Verify Error" });
       } else {
         req.Email = decoded.Email;
+        req.Role_id = decoded.Role_id;
         next();
       }
     });

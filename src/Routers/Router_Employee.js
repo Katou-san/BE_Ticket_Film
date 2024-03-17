@@ -1,5 +1,5 @@
 const express = require("express");
-const { JWT_Verify_Token } = require("../Middleware/JWT_ActionS");
+const { JWT_Verify_Token } = require("../Middleware/JWT_Actions");
 const {
   CTL_Login_E,
   CTL_Signup_E,
