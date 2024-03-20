@@ -7,7 +7,7 @@ const {
 } = require("../Controllers/Controllers_User");
 const Router = express.Router();
 
-Router.get("/login", CTL_Login);
+Router.post("/login", CTL_Login);
 Router.post("/signup", CTL_Signup);
 Router.get("/auth", JWT_Verify_Token, CTL_Auth);
 module.exports = Router;

@@ -15,11 +15,17 @@ const CTL_Login = async (req, res) => {
 
 const CTL_Signup = async (req, res) => {
   try {
-    const { Email, Pass, Phone, Address } = req.body;
-    if (!Email && !Pass && !Phone && !Address) {
+    const { Email, Pass, Confirm_Pass, Phone, Address } = req.body;
+
+    if (!Email && !Pass && !Confirm_Pass && !Phone && !Address) {
       return res.status(404).json({ status: 404, message: "Signup failed" });
     }
 
+    if (Pass !== Confirm_Pass) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "Password ot macth" });
+    }
     const response = await S_Signup(req.body);
     return res.status(200).json(response);
   } catch (e) {
