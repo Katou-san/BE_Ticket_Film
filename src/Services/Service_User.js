@@ -9,22 +9,22 @@ const S_Login = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { Email, Pass } = data;
-      const sql = `SELECT * FROM user WHERE Email = ?`;
+      const sql = `SELECT * FROM _user WHERE _email = ?`;
       const result = await Query(sql, [Email]);
       if (result.length == 0) {
         resolve({ status: 404, data: "Not found User" });
       }
 
-      if (!Confirm_Hash_Password(Pass, result[0].Pass)) {
+      if (!Confirm_Hash_Password(Pass, result[0]._pass)) {
         resolve({ status: 404, data: "Pass not match" });
       }
 
-      const { User_id, Name } = result[0];
+      const { _name } = result[0];
       const Access_Token = JWT_Create_Token({
-        Name,
+        Name: _name,
         Email,
       });
-      resolve({ status: 200, data: { Access_Token, Name } });
+      resolve({ status: 200, data: { Access_Token, Name: _name } });
     } catch (err) {
       reject(err);
     }
@@ -34,16 +34,17 @@ const S_Login = (data) => {
 const S_Signup = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { Email, Name, Pass, Phone, Address } = data;
-      const check_Email = await Query("SELECT email FROM user WHERE Email=?", [
-        Email,
-      ]);
+      const { Email, Pass, Phone, Address } = data;
+      const check_Email = await Query(
+        "SELECT _email FROM _user WHERE _email=?",
+        [Email]
+      );
 
       if (check_Email.length > 0) {
         resolve({ status: 404, message: "Email is ready" });
       } else {
         const sql =
-          "INSERT INTO user (Email,Name,Pass,Phone,Address) VALUES(?,?,?,?,?)";
+          "INSERT INTO _user (_email,_name,_pass,_phone,_address) VALUES(?,?,?,?,?)";
         const result = await Query(sql, [
           Email,
           Email.split("@")[0],
@@ -54,10 +55,13 @@ const S_Signup = (data) => {
 
         const Access_Token = JWT_Create_Token({
           Email,
-          Name,
+          Name: Email.split("@")[0],
         });
 
-        resolve({ status: 200, data: { Access_Token, Name } });
+        resolve({
+          status: 200,
+          data: { Access_Token, Name: Email.split("@")[0] },
+        });
       }
     } catch (err) {
       reject(err);
@@ -68,16 +72,16 @@ const S_Signup = (data) => {
 const S_Auth = (Email) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const sql = "SELECT * FROM user WHERE Email = ?";
+      const sql = "SELECT * FROM _user WHERE _email = ?";
       const result = await Query(sql, [Email]);
 
-      const { Name } = result[0];
+      const { _name } = result[0];
       const Access_Token = JWT_Create_Token({
         Email,
-        Name,
+        Name: _name,
       });
 
-      resolve({ status: 200, data: { Access_Token, Name } });
+      resolve({ status: 200, data: { Access_Token, Name: _name } });
     } catch (err) {
       reject(err);
     }
