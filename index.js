@@ -2,11 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-const { Connection } = require("./Config");
+const { Connection } = require("./src/Config");
 
-const routes = require("./Routers/index");
-const { Query } = require("./Utils/Fun_SQL");
-const { post } = require("./Routers/Router_Test");
+const routes = require("./src/Routers/index");
+const { Query } = require("./src/Utils/Fun_SQL");
+const { post } = require("./src/Routers/Router_Test");
 app.use(
   cors({
     origin: ["https://be-ticket-film-cfzfld22z-katous-projects.vercel.app"],
