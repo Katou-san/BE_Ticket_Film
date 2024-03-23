@@ -8,11 +8,12 @@ const routes = require("./src/Routers/index");
 const { Query } = require("./src/Utils/Fun_SQL");
 const { post } = require("./src/Routers/Router_Test");
 app.use(
-  cors({
-    origin: ["https://be-ticket-film-cfzfld22z-katous-projects.vercel.app"],
-    methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true,
-  })
+  cors()
+  //   {
+  //   origin: ["https://be-ticket-film-cfzfld22z-katous-projects.vercel.app"],
+  //   methods: ["POST", "GET", "PUT", "DELETE"],
+  //   credentials: true,
+  // }
 );
 app.use(express.json());
 app.use(bodyParser.json());
