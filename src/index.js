@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 routes(app);
 app.use("/", () => {
-  console.log("hello world");
+  console.log("hello worldgsds");
 });
 app.listen(8080, async () => {
   try {
