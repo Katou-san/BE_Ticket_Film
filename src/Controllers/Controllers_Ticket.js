@@ -3,17 +3,15 @@ const { S_Create_Ticket, S_Get_Seats } = require("../Services/Service_Ticket");
 const CTL_Create_Ticket = async (req, res) => {
   try {
     const Email = req.Email;
-    const { Date, Film_Id, Price, Quantity, Room, Seats, Time } = req.body;
-    console.log(Email);
+    const { Time, Film_Id, Price, Quantity, Room_Id, Seats } = req.body;
     if (
       !Email &&
-      !Date &&
+      !Time &&
       !Film_Id &&
       !Price &&
       !Quantity &&
-      !Room &&
-      !Seats &&
-      !Time
+      !Room_Id &&
+      !Seats
     ) {
       return res
         .status(404)

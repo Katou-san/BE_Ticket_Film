@@ -1,6 +1,7 @@
 const Date_Handle = (date) => {
   const temp = new Date(date);
   return {
+    minute: temp.getMinutes(),
     hour: temp.getHours(),
     day: temp.getDate(),
     month: temp.getMonth(),

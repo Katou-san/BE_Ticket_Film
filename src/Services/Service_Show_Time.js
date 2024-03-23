@@ -17,9 +17,23 @@ const S_Get_ShowTime = (data) => {
 const S_Get_Time = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { Film_Id, Room_Id } = data;
-      const sql = "SELECT time FROM showtime where Room_Id = ? and Film_Id = ?";
+      const { Film_Id, Room_Id, Time } = data;
+      const sql =
+        "SELECT time FROM showtime where Room_Id = ? and Film_Id = ? ";
       const result = await Query(sql, [Room_Id, Film_Id]);
+
+      const DateReq = Date_Handle(Time);
+      let Array_Time = [];
+      result.map((i) => {
+        const TimeDb = Date_Handle(i.time);
+        if (
+          TimeDb.day == DateReq.day &&
+          TimeDb.month == DateReq.month &&
+          TimeDb.year == DateReq.year
+        ) {
+          Array_Time.push(i.room_id);
+        }
+      });
       resolve({ status: 200, data: { Array_Time: result } });
     } catch (error) {
       reject({ status: 400, data: error });
@@ -31,9 +45,8 @@ const S_Get_Room = (data) => {
     try {
       const { Film_Id, Time } = data;
       const sql =
-        "SELECT s.id,s.room_id,f.launch_date,f.finish_date FROM showtime s JOIN film f ON s.film_id = f.id WHERE s.film_id = ?";
+        "SELECT s.id,s.room_id,s.time FROM showtime s JOIN film f ON s.film_id = f.id WHERE s.film_id = ? ";
       let Array_Room = [];
-      let Array_ST_Id = [];
       const result = await Query(sql, [Film_Id]);
       if (result.length == 0) {
         resolve({ status: 200, data: result });
@@ -41,24 +54,20 @@ const S_Get_Room = (data) => {
 
       const DateReq = Date_Handle(Time);
       result.map((i) => {
-        const FLaunch = Date_Handle(i.launch_date);
-        const FFinish = Date_Handle(i.finish_date);
+        const TimeDb = Date_Handle(i.time);
+
         if (
-          FLaunch.day <= DateReq.day &&
-          DateReq.day <= FFinish.day &&
-          FLaunch.month <= DateReq.month &&
-          DateReq.month <= FFinish.month &&
-          FLaunch.year == DateReq.year &&
-          DateReq.year <= FLaunch.year
+          TimeDb.day == DateReq.day &&
+          TimeDb.month == DateReq.month &&
+          TimeDb.year == DateReq.year
         ) {
           Array_Room.push(i.room_id);
-          Array_ST_Id.push(i.id);
         }
       });
 
       resolve({
         status: 200,
-        data: { Showtime_Id: Array_ST_Id, Array_Room },
+        data: { Array_Room },
       });
     } catch (error) {
       reject({ status: 404, message: error });

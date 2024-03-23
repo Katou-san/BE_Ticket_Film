@@ -6,7 +6,7 @@ const { Connection } = require("./Config");
 
 const routes = require("./Routers/index");
 const { Query } = require("./Utils/Fun_SQL");
-app.use(cors());
+app.use(cors({}));
 app.use(express.json());
 app.use(bodyParser.json());
 
