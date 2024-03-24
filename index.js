@@ -20,7 +20,8 @@ app.use(bodyParser.json());
 
 routes(app);
 app.use("/", (req, res) => {
-  res.send("hello worldgsdsdg");
+  console.log("Welcome");
+  res.render("<h1>hello worldgsdsdg</h1>");
 });
 
 app.listen(8080, async () => {
