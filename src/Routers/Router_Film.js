@@ -11,7 +11,7 @@ const {
 const Router = express.Router();
 
 Router.get("/get", CTL_Get_Film);
-Router.get("/get_recommend", CTL_GetRC_Film);
+Router.get("/get-recommend", CTL_GetRC_Film);
 Router.get("/get/:id", CTL_Get_Film_Details);
 Router.post("/create", JWT_Verify_Token, CTL_Add_Film);
 Router.put("/edit", JWT_Verify_Token, CTL_Edit_Film);

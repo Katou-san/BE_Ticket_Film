@@ -91,6 +91,7 @@ const CTL_Edit_Film = async (req, res) => {
 
 const CTL_GetRC_Film = async (req, res) => {
   try {
+    console.log("hello");
     const response = await S_GetRC_Film();
     res.status(200).json(response);
   } catch (err) {

@@ -36,7 +36,7 @@ const S_GetRC_Film = () => {
       let Result_Upload = [];
       let Result_Now = [];
       let Result_Soon = [];
-      const sql = "SELECT * FROM Film";
+      const sql = "SELECT * FROM film";
       const find = await Query(sql);
       find.map((result) => {
         let launch_date = Date_Handle(result.launch_date);
