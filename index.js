@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 routes(app);
 app.use("/", (req, res) => {
   console.log("Welcome");
-  res.render("<h1>hello worldgsdsdg</h1>");
+  res.render("about", { title: "hello", message: "Hello there!" });
 });
 
 app.listen(8080, async () => {
