@@ -29,8 +29,11 @@ app.listen(8080, async () => {
     console.log("Server is running in http://localhost:8080");
     const sql = "SELECT * FROM role";
     const server = await Query(sql);
+    console.log(server);
     if (server) {
       console.log("Connect Database SUCCESSFUL");
+    } else {
+      console.log("Connect Database Fail");
     }
   } catch (err) {
     console.log(err.message);
