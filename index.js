@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 routes(app);
 app.use("/", (req, res) => {
   console.log("Welcome");
-  res.render("about", { title: "hello", message: "Hello there!" });
+  res.status(200).json({ success: "Welcome to backend!" });
 });
 
 app.listen(8080, async () => {
