@@ -1,23 +1,23 @@
 const { Query } = require("../Utils/Fun_SQL");
 const {
   JWT_Create_Token,
-  Hash_Password,
-  Confirm_Hash_Password,
+  // Hash_Password,
+  // Confirm_Hash_Password,
 } = require("../Middleware/JWT_Actions");
 
 const S_Login = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { Email, Pass } = data;
-      const sql = `SELECT * FROM _user WHERE _email = ?`;
-      const result = await Query(sql, [Email]);
+      const sql = `SELECT * FROM _user WHERE _email = ? And _pass =?`;
+      const result = await Query(sql, [Email, Pass]);
       if (result.length == 0) {
         resolve({ status: 404, data: "Not found User" });
       }
 
-      if (!Confirm_Hash_Password(Pass, result[0]._pass)) {
-        resolve({ status: 404, data: "Pass not match" });
-      }
+      // if (!Confirm_Hash_Password(Pass, result[0]._pass)) {
+      //   resolve({ status: 404, data: "Pass not match" });
+      // }
 
       const { _name } = result[0];
       const Access_Token = JWT_Create_Token({
@@ -48,7 +48,7 @@ const S_Signup = (data) => {
         const result = await Query(sql, [
           Email,
           Email.split("@")[0],
-          Hash_Password(Pass),
+          Pass,
           Phone,
           Address,
         ]);
