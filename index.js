@@ -19,9 +19,10 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 routes(app);
-app.use("/", () => {
-  console.log("hello worldgsdsdg");
+app.use("/", (req, res) => {
+  res.send("hello worldgsdsdg");
 });
+
 app.listen(8080, async () => {
   try {
     console.log("Server is running in http://localhost:8080");
