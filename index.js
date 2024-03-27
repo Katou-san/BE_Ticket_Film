@@ -2,25 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
-const { Connection } = require("./src/Config");
 
 const routes = require("./src/Routers/index");
 const { Query } = require("./src/Utils/Fun_SQL");
-const { post } = require("./src/Routers/Router_Test");
-app.use(
-  cors()
-  //   {
-  //   origin: ["https://be-ticket-film-cfzfld22z-katous-projects.vercel.app"],
-  //   methods: ["POST", "GET", "PUT", "DELETE"],
-  //   credentials: true,
-  // }
-);
+
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
 routes(app);
 app.use("/", (req, res) => {
-  console.log("Welcome");
+  console.log("BACKEND IS STARTING");
   res.status(200).json({ success: "Welcome to backend!" });
 });
 
@@ -29,8 +21,7 @@ app.listen(8080, async () => {
     console.log("Server is running in http://localhost:8080");
     const sql = "SELECT * FROM role";
     const server = await Query(sql);
-    console.log(server);
-    if (server) {
+    if (server != null) {
       console.log("Connect Database SUCCESSFUL");
     } else {
       console.log("Connect Database Fail");

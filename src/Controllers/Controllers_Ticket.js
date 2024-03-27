@@ -1,4 +1,8 @@
-const { S_Create_Ticket, S_Get_Seats } = require("../Services/Service_Ticket");
+const {
+  S_Create_Ticket,
+  S_Get_Seats,
+  S_Get_Ticket,
+} = require("../Services/Service_Ticket");
 
 const CTL_Create_Ticket = async (req, res) => {
   try {
@@ -26,12 +30,15 @@ const CTL_Create_Ticket = async (req, res) => {
 
 const CTL_Get_Ticket = async (req, res) => {
   try {
-    const { Email, Pass } = req.body;
-    if (!Email && !Pass && !Phone && !Address) {
-      return res.status(404).json({ status: 404, message: "Signup failed" });
+    const Email = req.Email;
+    console.log(Email);
+    if (!Email) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "Get ticket failed" });
     }
 
-    const response = await S_Signup_E(req.body);
+    const response = await S_Get_Ticket(Email);
     return res.status(200).json(response);
   } catch (e) {
     return res.status(404).json({ status: 404, message: e.message });

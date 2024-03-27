@@ -16,7 +16,7 @@ const S_Get_Film_Details = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const sql =
-        "SELECT *,category.name as name_cate,category.id as id_cate FROM film JOIN category ON film.category_id = category.id WHERE film.id = ?";
+        "SELECT *,category.name as name_cate,category.id as id_cate ,film.name as name_Film FROM film JOIN category ON film.category_id = category.id WHERE film.id = ?";
       const result = await Query(sql, [id]);
 
       if (result.length == 0) {

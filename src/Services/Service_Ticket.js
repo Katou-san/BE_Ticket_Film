@@ -58,4 +58,22 @@ const S_Get_Seats = (data) => {
     }
   });
 };
-module.exports = { S_Create_Ticket, S_Get_Seats };
+
+const S_Get_Ticket = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const sql = "SELECT id FROM _user WHERE _email = ? ";
+      const result = await Query(sql, [email]);
+      if (result.length == 0) {
+        resolve({ status: 200, message: "Not found user", data: [] });
+      }
+      const sql1 = `SELECT *,t.id as tiket_Id FROM ticket t join showtime s on t.showtime_id = s.id WHERE t.user_id = ?`;
+      const result2 = await Query(sql1, [result[0].id]);
+
+      resolve({ status: 200, message: "Get complete", data: result2 });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+module.exports = { S_Create_Ticket, S_Get_Seats, S_Get_Ticket };
