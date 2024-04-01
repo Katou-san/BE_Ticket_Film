@@ -1,6 +1,7 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
-const Key_JWT = "sdfjasfd";
+const Key_JWT = process.env.JWT_SECRET_KEY;
 // const salt = bcrypt.genSaltSync(10);
 
 //CREATE JWT TOKEN

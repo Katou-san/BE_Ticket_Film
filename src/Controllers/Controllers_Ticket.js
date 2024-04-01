@@ -31,7 +31,6 @@ const CTL_Create_Ticket = async (req, res) => {
 const CTL_Get_Ticket = async (req, res) => {
   try {
     const Email = req.Email;
-    console.log(Email);
     if (!Email) {
       return res
         .status(404)

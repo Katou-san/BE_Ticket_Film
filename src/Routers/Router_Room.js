@@ -9,7 +9,7 @@ const {
 const Router = express.Router();
 
 Router.get("/category", CTL_Get_Room);
-Router.put("/edit_Room", CTL_Edit_Room);
-Router.post("/create_Room", CTL_Add_Room);
-Router.get("/delete_catetory/:id", CTL_Delete_Room);
+Router.put("/edit-Room", CTL_Edit_Room);
+Router.post("/create-Room", CTL_Add_Room);
+Router.get("/delete-catetory/:id", CTL_Delete_Room);
 module.exports = Router;

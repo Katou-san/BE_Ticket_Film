@@ -4,7 +4,7 @@ const Date_Handle = (date) => {
     minute: temp.getMinutes(),
     hour: temp.getHours(),
     day: temp.getDate(),
-    month: temp.getMonth(),
+    month: temp.getMonth() + 1,
     year: temp.getFullYear(),
   };
 };
@@ -14,7 +14,7 @@ const Get_Current_Date = () => {
   return {
     hour: temp.getHours(),
     day: temp.getDate(),
-    month: temp.getMonth(),
+    month: temp.getMonth() + 1,
     year: temp.getFullYear(),
   };
 };

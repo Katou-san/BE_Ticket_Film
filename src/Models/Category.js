@@ -3,32 +3,35 @@ const { Connection: db } = require("../Config/Connect_mysql");
 class Category {
   async getCategories() {
     try {
-      const con = await db.connect();
-      return con.query("SELECT * FROM category");
+      await db.connect();
+
+      return db.query(
+        "select c.*, count(f.id) as film_count from category c left join film f on c.id = f.category_id group by c.id"
+      );
     } catch (err) {
       return Promise.resolve([null, null]);
     }
   }
   async createCategory(name) {
     try {
-      const con = await db.connect();
-      return con.execute("INSERT INTO category(name) VALUES(?)", [name]);
+      await db.connect();
+      return db.execute("INSERT INTO category(name) VALUES(?)", [name]);
     } catch (err) {
       return Promise.resolve([null, null]);
     }
   }
   async deleteCategory(id) {
     try {
-      const con = await db.connect();
-      return con.execute("DELETE FROM category WHERE id = ?", [id]);
+      await db.connect();
+      return db.execute("DELETE FROM category WHERE id = ?", [id]);
     } catch (err) {
       return Promise.resolve([null, null]);
     }
   }
   async updateCategory(id, name) {
     try {
-      const con = await db.connect();
-      return con.execute("UPDATE category SET name = ? WHERE id = ?", [
+      await db.connect();
+      return db.execute("UPDATE category SET name = ? WHERE id = ?", [
         name,
         id,
       ]);
@@ -38,8 +41,8 @@ class Category {
   }
   async find(id) {
     try {
-      const con = await db.connect();
-      const [result, field] = await con.execute(
+      await db.connect();
+      const [result, field] = await db.execute(
         "SELECT * FROM category WHERE id = ?",
         [id]
       );

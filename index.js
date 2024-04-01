@@ -5,12 +5,14 @@ const app = express();
 
 const routes = require("./src/Routers/index");
 const { Query } = require("./src/Utils/Fun_SQL");
-
+const errorHandling = require("./src/Middleware/error.middleware");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(errorHandling);
 
 routes(app);
+
 app.use("/", (req, res) => {
   console.log("BACKEND IS STARTING");
   res.status(200).json({ success: "Welcome to backend!" });

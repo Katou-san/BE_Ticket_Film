@@ -69,8 +69,33 @@ const S_Get_Ticket = (email) => {
       }
       const sql1 = `SELECT *,t.id as tiket_Id FROM ticket t join showtime s on t.showtime_id = s.id WHERE t.user_id = ?`;
       const result2 = await Query(sql1, [result[0].id]);
+      let out = [];
+      let now = [
+        {
+          id: 10,
+          showtime_id: 10,
+          user_id: 5,
+          creation_time: "2024-03-28T13:45:22.000Z",
+          seat_index: "test",
+          room_id: 3,
+          film_id: 8,
+          time: "2024-03-27T11:43:42.000Z",
+          tiket_Id: 36,
+        },
+      ];
+      result2.map((row) => {
+        if (Date_Handle(row.time).day >= new Date().getDate()) {
+          now.push(row);
+        } else {
+          out.push(row);
+        }
+      });
 
-      resolve({ status: 200, message: "Get complete", data: result2 });
+      resolve({
+        status: 200,
+        message: "Get complete",
+        data: [...now, ...out],
+      });
     } catch (err) {
       reject(err);
     }

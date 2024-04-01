@@ -1,83 +1,81 @@
 const roomModel = require("../Models/Room");
+const ApiError = require("../Utils/ApiError");
 
 class Room {
-  // GET: /api/v1/admin/films
-  async index(req, res) {
+  // GET: /api/v1/admin/rooms
+  async index(req, res, next) {
     try {
       const [result] = await roomModel.getRooms();
       if (result === null) {
-        res.status(500).send("No connection");
+        return next(new ApiError("Database was not connected properly"));
       } else res.json(result);
     } catch (err) {
-      console.log(err);
-      res.status(500);
+      next(err);
     }
   }
 
-  // POST: /api/v1/admin/films
-  async create(req, res) {
+  // POST: /api/v1/admin/rooms
+  async create(req, res, next) {
     try {
       const clientData = req.body;
       const [result] = await roomModel.createRoom(clientData);
       if (result === null) {
-        res.status(500).send("No connection");
-      } else return res.json(result.affectedRows);
+        return next(new ApiError("Database was not connected properly"));
+      } else res.json(result.affectedRows);
     } catch (err) {
-      console.log(err);
-      return res.status(500);
+      next(err);
     }
   }
 
-  // PUT: /api/v1/admin/films/{id}
-  async update(req, res) {
+  // PUT: /api/v1/admin/rooms/{id}
+  async update(req, res, next) {
     try {
       const clientData = req.body;
       const id = req.params.id;
       if (!id) {
-        res.status(400).send("No params");
+        return next(new ApiError("No nesscessary parameters for request", 400));
       } else {
-        const [result] = await roomModel.updateFilm(id, clientData);
+        const [result] = await roomModel.updateRoom(id, clientData);
         if (result === null) {
-          res.status(500).send("No connection");
+          return next(new ApiError("Database was not connected properly"));
         } else res.json(result.affectedRows);
       }
     } catch (err) {
-      console.log(err);
-      res.status(500);
+      next(err);
     }
   }
 
-  // DELETE: /api/v1/admin/films/:id
-  async delete(req, res) {
+  // DELETE: /api/v1/admin/rooms/:id
+  async delete(req, res, next) {
     try {
       const id = req.params.id;
-      if (!id) res.status(400).send("No params");
-      else {
-        const [result] = await roomModel.deleteFilm(id);
+      if (!id) {
+        return next(new ApiError("No nesscessary parameters for request", 400));
+      } else {
+        const [result] = await roomModel.deleteRoom(id);
         if (result === null) {
-          res.status(500).send("No connection");
+          return next(new ApiError("Database was not connected properly"));
         } else res.json(result.affectedRows);
       }
     } catch (err) {
-      console.log(err);
-      res.status(500);
+      next(err);
     }
   }
 
-  // GET: /api/v1/admin/films/:id
-  async find(req, res) {
+  // GET: /api/v1/admin/rooms/:id
+  async find(req, res, next) {
     try {
       const id = req.params.id;
-      if (!id) res.status(400).send("No params");
-      else {
+      if (!id) {
+        return next(new ApiError("No nesscessary parameters for request", 400));
+      } else {
         const [result] = await roomModel.find(id);
         if (result === null) {
-          res.status(500).send("No connection");
+          return next(new ApiError("Database was not connected properly"));
         } else res.json(result);
       }
     } catch (err) {
-      console.log(err);
-      res.status(500);
+      next(err);
     }
   }
 }

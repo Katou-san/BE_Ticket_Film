@@ -33,7 +33,7 @@ const S_Get_Film_Details = (id) => {
 const S_GetRC_Film = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let Result_Upload = [];
+      let Result_Done = [];
       let Result_Now = [];
       let Result_Soon = [];
       const sql = "SELECT * FROM film";
@@ -42,15 +42,31 @@ const S_GetRC_Film = () => {
         let launch_date = Date_Handle(result.launch_date);
         let finish_date = Date_Handle(result.finish_date);
         let currnent = Get_Current_Date();
-        if (
-          currnent.day >= launch_date.day &&
-          currnent.day <= finish_date.day
+
+        if (launch_date.month == currnent.month) {
+          if (
+            launch_date.day <= currnent.day &&
+            currnent.day <= finish_date.day
+          ) {
+            Result_Now.push(result.id);
+          } else if (launch_date.day >= currnent.day) {
+            Result_Soon.push(result.id);
+          }
+        } else if (launch_date.month < currnent.month) {
+          if (
+            launch_date.day >= currnent.day &&
+            currnent.day <= finish_date.day
+          ) {
+            Result_Now.push(result.id);
+          }
+        } else if (
+          launch_date.month > currnent.month &&
+          launch_date.year == currnent.year
         ) {
-          Result_Now.push(result.id);
-        } else if (launch_date.day > currnent.day) {
           Result_Soon.push(result.id);
         }
       });
+
       resolve({
         status: 200,
         data: { Result_Now, Result_Soon },

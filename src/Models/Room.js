@@ -3,8 +3,10 @@ const { Connection: db } = require("../Config/Connect_mysql");
 class Room {
   async getRooms() {
     try {
-      const con = await db.connect();
-      return con.query("SELECT * FROM room");
+      await db.connect();
+      return db.query(
+        "select r.id, r.name, r.seats, count(s.id) as showtime_count from room r left join showtime s on  r.id = s.room_id group by r.id, r.name, r.seats"
+      );
     } catch (err) {
       console.log(err);
       return Promise.resolve([null, null]);
@@ -13,10 +15,10 @@ class Room {
 
   async createRoom(data) {
     try {
-      const con = await db.connect();
+      await db.connect();
       const sql = "INSERT INTO room(name, seats) VALUES(?, ?)";
       const values = [data.name, data.seats];
-      return con.execute(sql, values);
+      return db.execute(sql, values);
     } catch (err) {
       console.log(err);
       return Promise.resolve([null, null]);
@@ -24,10 +26,10 @@ class Room {
   }
   async deleteRoom(id) {
     try {
-      const con = await db.connect();
+      await db.connect();
       const sql = "DELETE FROM room WHERE id = ?";
       const values = [id];
-      return con.execute(sql, values);
+      return db.execute(sql, values);
     } catch (err) {
       console.log(err);
       return Promise.resolve([null, null]);
@@ -35,10 +37,10 @@ class Room {
   }
   async updateRoom(id, data) {
     try {
-      const con = await db.connect();
+      await db.connect();
       const sql = "UPDATE room SET name = ?, seats = ? WHERE id = ?";
       const values = [data.name, data.seats, id];
-      return con.execute(sql, values);
+      return db.execute(sql, values);
     } catch (err) {
       console.log(err);
       return Promise.resolve([null, null]);
@@ -46,9 +48,9 @@ class Room {
   }
   async find(id) {
     try {
-      const con = await db.connect();
-      const sql = "DELETE FROM room WHERE id = ?";
-      const [result, field] = await con.execute(sql, [id]);
+      await db.connect();
+      const sql = "SELECT * FROM room WHERE id = ?";
+      const [result, field] = await db.execute(sql, [id]);
       return [result[0], field];
     } catch (err) {
       console.log(err);

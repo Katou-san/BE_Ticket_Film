@@ -4,6 +4,7 @@ const {
   S_Edit_ShowTime,
   S_Get_ShowTime,
   S_ShowTime_Check,
+  S_Get_ShowTime_Price,
   S_Get_Time,
   S_Get_Room,
 } = require("../Services/Service_Show_Time");
@@ -107,6 +108,20 @@ const CTL_ShowTime_Check = async (req, res) => {
     return res.status(404).json({ status: 404, message: err.message });
   }
 };
+
+const CTL_Get_Price = async (req, res) => {
+  try {
+    const { Film_Id, Room_Id, Time } = req.body;
+    if (!Film_Id && !Room_Id && !Time) {
+      return res.status(404).json({ status: 404, message: "fail" });
+    }
+
+    const response = await S_Get_ShowTime_Price(req.body);
+    return res.status(200).json(response);
+  } catch (err) {
+    return res.status(404).json({ status: 404, message: err.message });
+  }
+};
 module.exports = {
   CTL_Get_ShowTime,
   CTL_Add_ShowTime,
@@ -115,4 +130,5 @@ module.exports = {
   CTL_ShowTime_Check,
   CTL_Get_Room,
   CTL_Get_Time,
+  CTL_Get_Price,
 };

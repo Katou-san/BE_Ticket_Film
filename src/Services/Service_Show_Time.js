@@ -5,7 +5,6 @@ const S_Get_ShowTime = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { Film_Id } = data;
-
       const sql = "SELECT * FROM Show_time WHERE Film_Id =?";
       const result = await Query(sql, [Film_Id]);
       resolve({ status: 200, data: result });
@@ -19,10 +18,11 @@ const S_Get_Time = (data) => {
     try {
       const { Film_Id, Room_Id, Time } = data;
       const sql =
-        "SELECT time FROM showtime where Room_Id = ? and Film_Id = ? ";
+        "SELECT time , Price FROM showtime where Room_Id = ? and Film_Id = ? ";
       const result = await Query(sql, [Room_Id, Film_Id]);
 
       const DateReq = Date_Handle(Time);
+
       let Array_Time = [];
       result.map((i) => {
         const TimeDb = Date_Handle(i.time);
@@ -31,10 +31,14 @@ const S_Get_Time = (data) => {
           TimeDb.month == DateReq.month &&
           TimeDb.year == DateReq.year
         ) {
-          Array_Time.push(i.room_id);
+          Array_Time.push(i.time);
         }
       });
-      resolve({ status: 200, data: { Array_Time: result } });
+      resolve({
+        status: 200,
+        data: { Array_Time: result },
+        message: "get complete",
+      });
     } catch (error) {
       reject({ status: 400, data: error });
     }
@@ -45,7 +49,7 @@ const S_Get_Room = (data) => {
     try {
       const { Film_Id, Time } = data;
       const sql =
-        "SELECT s.id,s.room_id,s.time FROM showtime s JOIN film f ON s.film_id = f.id WHERE s.film_id = ? ";
+        "SELECT s.id,s.room_id,s.time,s.Price FROM showtime s JOIN film f ON s.film_id = f.id WHERE s.film_id = ? ";
       let Array_Room = [];
       const result = await Query(sql, [Film_Id]);
       if (result.length == 0) {
@@ -71,6 +75,24 @@ const S_Get_Room = (data) => {
       });
     } catch (error) {
       reject({ status: 404, message: error });
+    }
+  });
+};
+
+const S_Get_ShowTime_Price = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { Room_Id, Film_Id, Time } = data;
+
+      const sql = `SELECT Price FROM showtime s WHERE s.room_id = ? and s.film_id = ? and s.time = ?`;
+      const result = await Query(sql, [Room_Id, Film_Id, new Date(Time)]);
+      if (result.length == 0) {
+        resolve({ status: 404, data: { Price: 0 } });
+      }
+
+      resolve({ status: 200, data: { Price: result[0].Price } });
+    } catch (e) {
+      reject({ status: 404, message: e.message });
     }
   });
 };
@@ -240,4 +262,5 @@ module.exports = {
   S_ShowTime_Check,
   S_Get_Room,
   S_Get_Time,
+  S_Get_ShowTime_Price,
 };

@@ -9,7 +9,7 @@ const {
   CTL_Get_Seats,
 } = require("../Controllers/Controllers_Ticket");
 Router.post("/create", JWT_Verify_Token, CTL_Create_Ticket);
-Router.post("/get_seats", CTL_Get_Seats);
+Router.post("/get-seats", CTL_Get_Seats);
 Router.get("/get", JWT_Verify_Token, CTL_Get_Ticket);
 Router.get("/delete", JWT_Verify_Token);
 module.exports = Router;
