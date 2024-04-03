@@ -9,7 +9,7 @@ const errorHandling = require("./src/Middleware/error.middleware");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
+app.use(express.static("public"));
 routes(app);
 
 app.use("/", (req, res) => {
