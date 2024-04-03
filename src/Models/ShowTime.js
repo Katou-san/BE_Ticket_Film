@@ -17,7 +17,7 @@ class ShowTime {
   async getBriefShowtimesForRoom(roomId) {
     try {
       await db.connect();
-      const sql = `select date(s.time) as showtime_date, group_concat(distinct '{ "showtime_id": ', s.id,', "showtime_time": "', substring(time(s.time), 1, 5), '" }' separator ';') as showtime from room r join showtime s on r.id = s.room_id where r.id = ? group by date(s.time)`;
+      const sql = `select s.room_id, date(s.time) as showtime_date, group_concat(distinct '{ "showtime_id": ', s.id,', "showtime_time": "', substring(time(s.time), 1, 5), '" }' separator ';') as showtime from room r join showtime s on r.id = s.room_id where r.id = ? group by date(s.time)`;
       return db.execute(sql, [roomId]);
     } catch (err) {
       console.log(err);
