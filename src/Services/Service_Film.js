@@ -1,5 +1,22 @@
 const { Query } = require("../Utils/Fun_SQL");
 const { Date_Handle, Get_Current_Date } = require("../Utils/Handle_Date");
+
+const S_Search_Film = (value) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let Array_Temp = [];
+      const sql = "SELECT id FROM film WHERE name LIKE ? ";
+      const result = await Query(sql, [`%${value}%`]);
+      const result2 = await Query(sql, [`${value}%`]);
+      result.map((item) => Array_Temp.push(item.id));
+      result2.map((item) => Array_Temp.push(item.id));
+      resolve({ status: 200, data: [...new Set(Array_Temp)] });
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
 const S_Get_Film = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -214,4 +231,5 @@ module.exports = {
   S_Delete_Film,
   S_Edit_Film,
   S_GetRC_Film,
+  S_Search_Film,
 };

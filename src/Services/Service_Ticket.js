@@ -67,22 +67,12 @@ const S_Get_Ticket = (email) => {
       if (result.length == 0) {
         resolve({ status: 200, message: "Not found user", data: [] });
       }
-      const sql1 = `SELECT *,t.id as tiket_Id FROM ticket t join showtime s on t.showtime_id = s.id WHERE t.user_id = ?`;
+      const sql1 = `SELECT 
+      t.seat_index,t.creation_time,t.id as Ticket_Id, s.time as Showtime_Time ,f.launch_date,f.finish_date ,f.name as Film_Name,f.poster, s.Price, f.time as Duration 
+      FROM ticket t join showtime s on t.showtime_id = s.id JOIN film f on s.film_id = f.id WHERE t.user_id = ?`;
       const result2 = await Query(sql1, [result[0].id]);
       let out = [];
-      let now = [
-        {
-          id: 10,
-          showtime_id: 10,
-          user_id: 5,
-          creation_time: "2024-03-28T13:45:22.000Z",
-          seat_index: "test",
-          room_id: 3,
-          film_id: 8,
-          time: "2024-03-27T11:43:42.000Z",
-          tiket_Id: 36,
-        },
-      ];
+      let now = [];
       result2.map((row) => {
         if (Date_Handle(row.time).day >= new Date().getDate()) {
           now.push(row);

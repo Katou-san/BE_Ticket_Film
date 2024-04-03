@@ -1,6 +1,7 @@
 const { Query } = require("../Utils/Fun_SQL");
 const {
   JWT_Create_Token,
+  Hash_Password,
   // Hash_Password,
   // Confirm_Hash_Password,
 } = require("../Middleware/JWT_Actions");
@@ -10,7 +11,7 @@ const S_Login = (data) => {
     try {
       const { Email, Pass } = data;
       const sql = `SELECT * FROM _user WHERE _email = ? And _pass =?`;
-      const result = await Query(sql, [Email, Pass]);
+      const result = await Query(sql, [Email, Hash_Password(Pass)]);
       if (result.length == 0) {
         resolve({ status: 404, data: "Not found User" });
       }
@@ -48,7 +49,7 @@ const S_Signup = (data) => {
         const result = await Query(sql, [
           Email,
           Email.split("@")[0],
-          Pass,
+          Hash_Password(Pass),
           Phone,
           Address,
         ]);
