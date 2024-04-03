@@ -26,8 +26,12 @@ class FilmController {
   async create(req, res, next) {
     try {
       const clientData = req.body;
-      console.log(req.body);
       clientData.poster = req.file.filename;
+      if (clientData.poster) {
+        console.log(req.file);
+        console.log("not found img");
+      }
+
       const [result] = await filmModel.createFilm(clientData);
       if (result === null) {
         return next(new ApiError("Database was not connected properly"));
