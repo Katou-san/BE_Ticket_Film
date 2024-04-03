@@ -36,7 +36,7 @@ const S_Get_Time = (data) => {
       });
       resolve({
         status: 200,
-        data: { Array_Time: result },
+        data: { Array_Time },
         message: "get complete",
       });
     } catch (error) {

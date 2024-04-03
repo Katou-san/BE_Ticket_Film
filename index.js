@@ -9,7 +9,6 @@ const errorHandling = require("./src/Middleware/error.middleware");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(errorHandling);
 
 routes(app);
 
@@ -17,6 +16,7 @@ app.use("/", (req, res) => {
   console.log("BACKEND IS STARTING");
   res.status(200).json({ success: "Welcome to backend!" });
 });
+app.use(errorHandling);
 
 app.listen(8080, async () => {
   try {

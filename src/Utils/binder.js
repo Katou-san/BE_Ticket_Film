@@ -2,26 +2,26 @@ function filmBinder(data) {
   const {
     name,
     director,
-    launchdate,
+    launch_date,
     time,
     description,
     poster,
-    finishtime,
+    finish_date,
     actors,
     rated,
-    categoryid,
+    category_id,
   } = data;
   return [
     name,
     director,
-    launchdate,
+    launch_date,
     time,
     description,
     poster,
-    finishtime ? finishtime : null,
+    finish_date ? finish_date : null,
     actors,
     rated,
-    categoryid,
+    category_id,
   ];
 }
 

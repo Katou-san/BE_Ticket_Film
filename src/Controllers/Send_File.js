@@ -3,7 +3,6 @@ const path = require("path");
 const Send_Image_Film = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const filePath = { root: path.join(__dirname, "../../public/images") };
     return res.sendFile(`${id}`, filePath, (err) => {
       if (err) {
