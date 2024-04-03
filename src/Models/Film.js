@@ -46,7 +46,7 @@ class Film {
           "UPDATE film SET name = ?, director = ?, launch_date = ?, time = ?, description = ?, poster = ?, finish_date = ?, actors = ?, rated = ?, category_id = ? WHERE id = ?";
       } else {
         sql =
-          "UPDATE film SET name = ?, director = ?, launch_date = ?, time = ?, description = ?, finish_date = ?, actors = ?, rated = ?, categoryid = ? WHERE id = ?";
+          "UPDATE film SET name = ?, director = ?, launch_date = ?, time = ?, description = ?, finish_date = ?, actors = ?, rated = ?, category_id = ? WHERE id = ?";
       }
       await db.connect();
       let values = binder.filmBinder(data);
